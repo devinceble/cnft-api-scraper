@@ -1,87 +1,207 @@
 const axios = require("axios").default;
+const jsonfile = require("jsonfile");
+const file = "cnft-units.json";
 const baseURL = "https://api.cnft.io";
+const colors = require("colors");
 
-var pageNum = 1;
-var units = [];
-var rareItems = ["Charles's samurai", "Cardano astronaut", "Charles's billion dollar console", "Charles's painting", "The mighty one poster", "Gold unicorn trophy", "Black desk", "Charles's safe"];
+const args = require("yargs").argv;
+const { mode, floorPrice } = args;
 
 const api = axios.create({
   baseURL: baseURL,
 });
 
-console.log("Retreiving CardanoCity Units from cnft...");
+let pageNum = 1;
+let rawUnits = [];
+let rareItemsList = [
+  "Charles's samurai",
+  "Cardano astronaut",
+  "Charles's billion dollar console",
+  "Charles's painting",
+  "The mighty one poster",
+  "Gold unicorn trophy",
+  "Black desk",
+  "Charles's safe",
+];
 
 const apiCall = () => {
-  const payload = {
-    search: "",
-    sort: "date",
-    order: "desc",
-    page: pageNum,
-    verified: true,
-    project: "CardanoCity",
-  };
+  if (175 >= pageNum) {
+    const payload = {
+      search: "",
+      sort: "date",
+      order: "desc",
+      page: pageNum,
+      verified: true,
+      project: "CardanoCity",
+    };
 
-  api
-    .post("/market/listings", payload)
-    .then((res) => {
-      res.data.assets.forEach((item) => {
-        const price = item.price / 1000000;
-        const tags = item.metadata.tags;
-        const unit = item.metadata.name.split("CardanoCityUnit")[1];
-        const contents = tags.filter(
-          (tag) => tag && tag.contents && tag.contents.length > 1
-        )[0].contents;
+    console.log("Getting units for page: ".green, pageNum);
 
-        try {
-          contents.forEach((itm) => {
-            const itemName = itm.name;
-            const priceInADA = price;
-
-            if (itemName === ) {
-              units.push(unit, itemName, priceInADA);
-            } else if (itemName === ) {
-              units.push(unit, itemName, priceInADA);
-            } else if (itemName === ) {
-              units.push(unit, itemName, priceInADA);
-            } else if (itemName === ) {
-              units.push(unit, itemName, priceInADA);
-            } else if (itemName === ) {
-              units.push(unit, itemName, priceInADA);
-            } else if (itemName === ) {
-              units.push(unit, itemName, priceInADA);
-            } else if (itemName === ) {
-              units.push(unit, itemName, priceInADA);
-            } else if (itemName === ) {
-              units.push(unit, itemName, priceInADA);
-            }
-          });
-        } catch (err) {
-          console.log("Discovered error with: ", unit, " - ", err);
-        }
+    api
+      .post("/market/listings", payload)
+      .then((res) => {
+        rawUnits.push(...res.data.assets);
+      })
+      .catch((err) => {
+        console.log(
+          "Error Sending the Request For Page: ",
+          pageNum,
+          " Error: ",
+          err
+        );
       });
-    })
-    .catch((err) => {
-      console.log(
-        "Error Sending the Request For Page: ",
-        pageNum,
-        " Error: ",
-        err
-      );
-    });
 
-  pageNum++;
+    pageNum++;
+  } else {
+    clearIntervalAndWriteFile();
+  }
 };
 
-const interval = setInterval(apiCall, 1000);
+const printRareUnits = () => {
+  const units = jsonfile.readFileSync(file);
+  let processedUnits = [];
 
-if (pageNum > 3) {
-  clearInterval(interval);
+  units.forEach((item) => {
+    const price = item.price / 1000000;
+    const unit = extractUnitNum(item);
+    const value = extractValue(item);
+    const contents = extractContents(item);
+    const valuePerADA = value && price ? Math.trunc(value / price) : "N/A";
 
-  units.forEach((unit) => {
-    console.log(unit, " - Item: ", itemName, " Price: ", priceInADA, "ADA");
+    try {
+      contents.forEach((itm) => {
+        const itemName = itm.name;
+        const priceInADA = price;
+        const foundUnit = rareItemsList.filter(
+          (rareItem) => rareItem === itemName
+        );
+
+        if (foundUnit.length > 0) {
+          processedUnits.push({
+            unit,
+            itemName,
+            priceInADA,
+            value,
+            valuePerADA,
+          });
+        }
+      });
+    } catch (err) {
+      console.log("Discovered error with: ", unit, " - ", err);
+    }
   });
 
+  const sortedUnitsByItem = processedUnits.sort();
+
+  // sortedUnitsByItem.forEach(({ unit, itemName, priceInADA, value}) => {
+  //   console.log(unit, " - Item: ", itemName, " Price: ", priceInADA, "ADA", " Value: ", value);
+  // });
+
+  console.table(sortedUnitsByItem);
+  showPaperHandsMsg();
+};
+
+const printFloorbuster = () => {
+  const units = jsonfile.readFileSync(file);
+  let totalADACost = 0;
+  let totalUnits = 0;
+  let processedUnits = [];
+
+  units.forEach((item) => {
+    const price = item.price / 1000000;
+    if (price <= floorPrice) {
+      processedUnits.push(item);
+    }
+  });
+  processedUnits.forEach((item) => {
+    totalADACost += item.price / 1000000;
+    totalUnits++;
+  });
+  const totalADA = totalADACost.toLocaleString();
+
   console.log(
-    "They had their chance to be apart of our glorious metaverse. WIPE THE FLOOOOOOOR WITH THESE FOOLS! CITIZEN'S STRONK!"
+    "\n========================================================================================================="
+      .cyan
   );
+  console.log(
+    `\n        To bust the current floor and raise it to ${floorPrice} ADA, it would cost ONLY ${totalADA} ADA! 🚀🚀🚀`
+      .red
+  );
+  console.log(
+    `\n\n                🔥🔥🔥💣💣💣💣💣💣💣 BUST THAT FLOOR LET'S GOOOOOOOO 💣💣💣💣💣💣💣🔥🔥🔥`
+      .red
+  );
+  console.log(
+    `\n                  💣💣💣💣💣💣💣 FIRST WE TAKE OVER CNFT, THEN THE WORLD. 💣💣💣💣💣💣💣`
+      .red
+  );
+  console.log(
+    `\n\n                             💣💣💣💣💣💣💣 CITIZEN'S STRONK! 💣💣💣💣💣💣💣`
+      .red
+  );
+  console.log(
+    "\n========================================================================================================="
+      .cyan
+  );
+};
+
+if (mode === "get-units") {
+  console.log("\nRetreiving CardanoCity units from cnft...\n");
+  const interval = setInterval(apiCall, 3000 * Math.random());
+
+  function clearIntervalAndWriteFile() {
+    console.log(
+      "\n========================================================================================================="
+        .cyan
+    );
+    console.log(
+      `\nSuccessfully retreived ${rawUnits.length} CardanoCity units from cnft...`
+        .magenta
+    );
+    clearInterval(interval);
+    jsonfile.writeFileSync(file, rawUnits);
+    console.log(
+      "Stored CardanoCity units locally, so you can perform searches for rare items and busting the floor price"
+        .magenta
+    );
+    console.log(
+      "\n========================================================================================================="
+        .cyan
+    );
+  }
+} else if (mode === "find-rare-items") {
+  printRareUnits();
+} else if (mode === "floorbuster") {
+  printFloorbuster();
 }
+
+const extractUnitNum = (item) => {
+  if (item?.metadata?.name)
+    return Number(item.metadata.name.split("CardanoCityUnit")[1]);
+  else return "N/A";
+};
+
+const extractValue = (item) => {
+  const tags = item?.metadata?.tags;
+  if (tags && tags.length > 1) {
+    return Number(
+      tags.filter((tag) => tag && tag.value && tag.value.length > 1)[0]?.value
+    );
+  } else return "N/A";
+};
+
+const extractContents = (item) => {
+  const tags = item?.metadata?.tags;
+  if (tags && tags.length > 1) {
+    return tags.filter(
+      (tag) => tag && tag.contents && tag.contents.length > 1
+    )[0]?.contents;
+  } else return "N/A";
+};
+
+const showPaperHandsMsg = () => {
+  console.log(
+    "\n=====================================================================\nThey had their chance to be apart of our glorious metaverse.",
+    "\n\nWIPE THE FLOOOOOOOR WITH THESE PAPERHANDED BITCHES. CITIZEN'S STRONK!\n====================================================================="
+  );
+};
