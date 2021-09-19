@@ -175,33 +175,43 @@ if (mode === "get-units") {
   printFloorbuster();
 }
 
-const extractUnitNum = (item) => {
+function extractUnitNum(item) {
   if (item?.metadata?.name)
     return Number(item.metadata.name.split("CardanoCityUnit")[1]);
   else return "N/A";
-};
+}
 
-const extractValue = (item) => {
+function extractValue(item) {
   const tags = item?.metadata?.tags;
   if (tags && tags.length > 1) {
     return Number(
       tags.filter((tag) => tag && tag.value && tag.value.length > 1)[0]?.value
     );
   } else return "N/A";
-};
+}
 
-const extractContents = (item) => {
+function extractContents(item) {
   const tags = item?.metadata?.tags;
   if (tags && tags.length > 1) {
     return tags.filter(
       (tag) => tag && tag.contents && tag.contents.length > 1
     )[0]?.contents;
   } else return "N/A";
-};
+}
 
-const showPaperHandsMsg = () => {
+function showPaperHandsMsg() {
   console.log(
-    "\n=====================================================================\nThey had their chance to be apart of our glorious metaverse.",
-    "\n\nWIPE THE FLOOOOOOOR WITH THESE PAPERHANDED BITCHES. CITIZEN'S STRONK!\n====================================================================="
+    "\n========================================================================================================="
+      .cyan
   );
-};
+  console.log(
+    "\n                       They had their chance to be apart of our glorious metaverse."
+      .green,
+    "\n\n                  WIPE THE FLOOOOOOOR WITH THESE PAPERHANDED BITCHES. CITIZEN'S STRONK!"
+      .green
+  );
+  console.log(
+    "\n========================================================================================================="
+      .cyan
+  );
+}
