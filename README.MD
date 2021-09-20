@@ -35,8 +35,8 @@ node index.js --mode=find-rare-items
 
 **FLOORBUSTER MODE!!!**:
 
-For floorbuster mode, this will find how much ADA it would cost and how many units sold it would take to bust the floor to specified ADA amount, in this example to get the floor to 45 ADA run:
+For floorbuster mode, this will find how much ADA it would cost and how many units sold it would take to bust the floor to specified ADA amount, in this example to get the floor to 35 ADA run:
 
 ```bash
-node index.js --mode=floorbuster --floorPrice=40
+node index.js --mode=floorbuster --floorPrice=35
 ```
