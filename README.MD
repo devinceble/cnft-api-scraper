@@ -13,8 +13,6 @@ npm i
 
 #### There are 3 modes to run. First you must retrieve the units then you can run rare item and floorbuster mode. Please do NOT retrieve the units more than once every 3-4 hours, cnft.io is a very important part of the CNFT ecosystem at the moment, and bringing it down could prove to be catastrophic at a time when ethereum refugees are flooding into the CNFT world.
 
-<br>
-
 <hr>
 
 #### Please note the rare item mode isn't really optimized yet, when I have the time I will group the rare items together and add an option to show only items below a certain price.
