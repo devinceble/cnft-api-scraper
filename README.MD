@@ -31,7 +31,3 @@ For floorbuster mode, this will find how much ADA it would cost and how many uni
 ```bash
 node index.js --mode=floorbuster --floorPrice=40
 ```
-
-img {
-border: 1px solid black;
-}
