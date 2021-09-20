@@ -2,7 +2,7 @@
 
 # Installation
 
-This tool uses NodeJS, there are tons of tutorials out there on how to download and install NodeJS.
+This tool uses NodeJS 15.4.0, there are tons of tutorials out there on how to download and install NodeJS.
 This readme will not be a Node tutorial unfortunately. Once you have node installed and have pulled down the git repo to your PC run the following to install the project:
 
 ```bash
