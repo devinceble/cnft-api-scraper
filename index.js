@@ -132,11 +132,11 @@ const printFloorbuster = () => {
       .red
   );
   console.log(
-    `\n                  💣💣💣💣💣💣💣 FIRST WE TAKE OVER CNFT, THEN THE WORLD. 💣💣💣💣💣💣💣`
+    `\n\n                      🌎🌎🌎🌎🌎 FIRST WE TAKE OVER CNFT, THEN THE WORLD. 🌎🌎🌎🌎🌎`
       .red
   );
   console.log(
-    `\n\n                             💣💣💣💣💣💣💣 CITIZEN'S STRONK! 💣💣💣💣💣💣💣`
+    `\n\n                       🔥🔥🔥💣💣💣💣💣💣💣 CITIZEN'S STRONK! 💣💣💣💣💣💣💣🔥🔥🔥`
       .red
   );
   console.log(
