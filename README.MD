@@ -2,13 +2,18 @@
 
 # Installation
 
+This tool uses NodeJS, there are tons of tutorials out there on how to download and install NodeJS.
+This readme will not be a Node tutorial unfortunately. Once you have node installed and have pulled down the git repo to your PC run the following to install the project:
+
 ```bash
 npm i
 ```
 
-## **Open your terminal and determine which mode you would like to run**
+## **Next, open your terminal and determine which mode you would like to run**
 
-### There are 3 modes to run, first you must retrieve the units then you can run rare item and floorbuster mode.
+#### There are 3 modes to run. First you must retrieve the units then you can run rare item and floorbuster mode. Please do NOT retrieve the units more than once every 3-4 hours, cnft.io is a very important part of the CNFT ecosystem at the moment, and bringing it down could prove to be catastrophic at a time when ethereum refugees are flooding into the CNFT world.
+
+<br>
 
 <hr>
 
@@ -24,7 +29,7 @@ npm i
 node index.js --mode=get-units
 ```
 
-**Find items with 10% rarity or less**:
+**Find items with 10% rarity or less (BETA MODE PLEASE BEAR WITH ME)**:
 
 ```bash
 node index.js --mode=find-rare-items
