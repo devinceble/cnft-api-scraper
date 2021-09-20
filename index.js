@@ -5,7 +5,7 @@ const baseURL = "https://api.cnft.io";
 const colors = require("colors");
 
 const args = require("yargs").argv;
-const { mode, floorPrice } = args;
+const { mode, floorPrice, rareItemPrice } = args;
 
 const api = axios.create({
   baseURL: baseURL,
@@ -126,6 +126,10 @@ const printFloorbuster = () => {
   console.log(
     `\n        To bust the current floor and raise it to ${floorPrice} ADA, it would cost ONLY ${totalADA} ADA! 🚀🚀🚀`
       .red
+  );
+  console.log(
+    `\n\n                                  🧹🧹🧹 ONLY ${totalUnits} units left to go! 🧹🧹🧹`
+      .green
   );
   console.log(
     `\n\n                🔥🔥🔥💣💣💣💣💣💣💣 BUST THAT FLOOR LET'S GOOOOOOOO 💣💣💣💣💣💣💣🔥🔥🔥`
