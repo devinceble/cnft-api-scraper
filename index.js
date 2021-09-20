@@ -132,20 +132,19 @@ const printFloorbuster = () => {
     `ONLY ${totalADA} ADA!`.green.red
   );
   console.log(
-    `\n\n                                              ONLY ${totalUnits} units left to go!`
+    `\n\n                                         ONLY ${totalUnits} units left to go!`
       .green
   );
   console.log(
-    `\n\n                                          BUST THAT FLOOR LET'S GOOOOOOOO`
+    `\n\n                                     BUST THAT FLOOR LET'S GOOOOOOOO`
       .red
   );
   console.log(
-    `\n\n                                       FIRST WE TAKE OVER CNFT, THEN THE WORLD.`
+    `\n\n                                  FIRST WE TAKE OVER CNFT, THEN THE WORLD.`
       .red
   );
   console.log(
-    `\n\n                                                  CITIZEN'S STRONK!`
-      .red
+    `\n\n                                             CITIZEN'S STRONK!`.magenta
   );
   console.log(
     "\n========================================================================================================="
