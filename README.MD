@@ -8,9 +8,15 @@ npm i
 
 ## **Open your terminal and determine which mode you would like to run**
 
-#### There are 3 modes to run, first you must retrieve the units then you can run rare-item and floorbuster mode.
+### There are 3 modes to run, first you must retrieve the units then you can run rare item and floorbuster mode.
 
 <hr>
+
+#### Please note the rare item mode isn't really optimized yet, when I have the time I will group the rare items together and add an option to show only items below a certain price.
+
+<hr>
+
+<br>
 
 **Retrieve the units from cnft.io**:
 
