@@ -65,29 +65,32 @@ const printRareUnits = () => {
     const price = item.price / 1000000;
     const unit = extractUnitNum(item);
     const value = extractValue(item);
-    const contents = extractContents(item);
-    const valuePerADA = value && price ? Math.trunc(value / price) : "N/A";
 
-    try {
-      contents.forEach((itm) => {
-        const itemName = itm.name;
-        const priceInADA = price;
-        const foundUnit = rareItemsList.filter(
-          (rareItem) => rareItem === itemName
-        );
+    if (unit) {
+      const contents = extractContents(item);
+      const valuePerADA = value && price ? Math.trunc(value / price) : "N/A";
 
-        if (foundUnit.length > 0) {
-          processedUnits.push({
-            unit,
-            itemName,
-            priceInADA,
-            value,
-            valuePerADA,
-          });
-        }
-      });
-    } catch (err) {
-      console.log("Discovered error with: ", unit, " - ", err);
+      try {
+        contents.forEach((itm) => {
+          const itemName = itm.name;
+          const priceInADA = price;
+          const foundUnit = rareItemsList.filter(
+            (rareItem) => rareItem === itemName
+          );
+
+          if (foundUnit.length > 0) {
+            processedUnits.push({
+              unit,
+              itemName,
+              priceInADA,
+              value,
+              valuePerADA,
+            });
+          }
+        });
+      } catch (err) {
+        console.log("Discovered error with: ", item, " - ", err);
+      }
     }
   });
 
@@ -124,23 +127,24 @@ const printFloorbuster = () => {
       .cyan
   );
   console.log(
-    `\n        To bust the current floor and raise it to ${floorPrice} ADA, it would cost ONLY ${totalADA} ADA! 🚀🚀🚀`
-      .red
+    `\n              To bust the current floor and raise it to ${floorPrice} ADA, it would cost`
+      .red,
+    `ONLY ${totalADA} ADA!`.green.red
   );
   console.log(
-    `\n\n                                  🧹🧹🧹 ONLY ${totalUnits} units left to go! 🧹🧹🧹`
+    `\n\n                                              ONLY ${totalUnits} units left to go!`
       .green
   );
   console.log(
-    `\n\n                🔥🔥🔥💣💣💣💣💣💣💣 BUST THAT FLOOR LET'S GOOOOOOOO 💣💣💣💣💣💣💣🔥🔥🔥`
+    `\n\n                                          BUST THAT FLOOR LET'S GOOOOOOOO`
       .red
   );
   console.log(
-    `\n\n                      🌎🌎🌎🌎🌎 FIRST WE TAKE OVER CNFT, THEN THE WORLD. 🌎🌎🌎🌎🌎`
+    `\n\n                                       FIRST WE TAKE OVER CNFT, THEN THE WORLD.`
       .red
   );
   console.log(
-    `\n\n                       🔥🔥🔥💣💣💣💣💣💣💣 CITIZEN'S STRONK! 💣💣💣💣💣💣💣🔥🔥🔥`
+    `\n\n                                                  CITIZEN'S STRONK!`
       .red
   );
   console.log(
@@ -180,9 +184,10 @@ if (mode === "get-units") {
 }
 
 function extractUnitNum(item) {
-  if (item?.metadata?.name)
-    return Number(item.metadata.name.split("CardanoCityUnit")[1]);
-  else return "N/A";
+  if (item?.metadata?.name) {
+    if (item.metadata.name.includes("CardanoCityUnit"))
+      return Number(item.metadata.name.split("CardanoCityUnit")[1]);
+  } else return "N/A";
 }
 
 function extractValue(item) {
