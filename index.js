@@ -5,7 +5,7 @@ const baseURL = "https://api.cnft.io";
 const colors = require("colors");
 
 const args = require("yargs").argv;
-const { mode, floorPrice, rareItemPrice } = args;
+const { mode, floorprice, rareItemPrice, rareitem } = args;
 
 const api = axios.create({
   baseURL: baseURL,
@@ -25,7 +25,7 @@ let rareItemsList = [
 ];
 
 const apiCall = () => {
-  if (175 >= pageNum) {
+  if (200 >= pageNum) {
     const payload = {
       search: "",
       sort: "date",
@@ -62,23 +62,19 @@ const printRareUnits = () => {
   let processedUnits = [];
 
   units.forEach((item) => {
-    const price = item.price / 1000000;
+    const priceInADA = item.price / 1000000;
     const unit = extractUnitNum(item);
     const value = extractValue(item);
 
     if (unit) {
       const contents = extractContents(item);
-      const valuePerADA = value && price ? Math.trunc(value / price) : "N/A";
+      const valuePerADA =
+        value && priceInADA ? Math.trunc(value / priceInADA) : "N/A";
 
       try {
         contents.forEach((itm) => {
           const itemName = itm.name;
-          const priceInADA = price;
-          const foundUnit = rareItemsList.filter(
-            (rareItem) => rareItem === itemName
-          );
-
-          if (foundUnit.length > 0) {
+          if (itemName.includes(rareitem)) {
             processedUnits.push({
               unit,
               itemName,
@@ -94,7 +90,9 @@ const printRareUnits = () => {
     }
   });
 
-  const sortedUnitsByItem = processedUnits.sort();
+  const sortedUnitsByItem = processedUnits.sort((a, b) => {
+    return a.priceInADA - b.priceInADA;
+  });
 
   // sortedUnitsByItem.forEach(({ unit, itemName, priceInADA, value}) => {
   //   console.log(unit, " - Item: ", itemName, " Price: ", priceInADA, "ADA", " Value: ", value);
@@ -112,7 +110,7 @@ const printFloorbuster = () => {
 
   units.forEach((item) => {
     const price = item.price / 1000000;
-    if (price <= floorPrice) {
+    if (price <= floorprice) {
       processedUnits.push(item);
     }
   });
@@ -127,7 +125,7 @@ const printFloorbuster = () => {
       .cyan
   );
   console.log(
-    `\n              To bust the current floor and raise it to ${floorPrice} ADA, it would cost`
+    `\n              To bust the current floor and raise it to ${floorprice} ADA, it would cost`
       .red,
     `ONLY ${totalADA} ADA!`.green.red
   );

@@ -30,7 +30,9 @@ node index.js --mode=get-units
 **Find items with 10% rarity or less (BETA MODE PLEASE BEAR WITH ME)**:
 
 ```bash
-node index.js --mode=find-rare-items
+node index.js --mode=find-rare-items --rareitem=samurai
+node index.js --mode=find-rare-items --rareitem=astro
+node index.js --mode=find-rare-items --rareitem=console
 ```
 
 **FLOORBUSTER MODE!!!**:
