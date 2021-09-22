@@ -73,8 +73,8 @@ const printRareUnits = () => {
 
       try {
         contents.forEach((itm) => {
-          const itemName = itm.name;
-          if (itemName.includes(rareitem)) {
+          const itemName = itm.name.toLowerCase();
+          if (itemName.includes(rareitem.toLowerCase())) {
             processedUnits.push({
               unit,
               itemName,

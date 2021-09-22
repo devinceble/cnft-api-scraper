@@ -29,10 +29,12 @@ node index.js --mode=get-units
 
 **Find items with 10% rarity or less (BETA MODE PLEASE BEAR WITH ME)**:
 
+#### Multiple words need to be passed with quotes as shown in the cardano wine example (3rd).
+
 ```bash
 node index.js --mode=find-rare-items --rareitem=samurai
 node index.js --mode=find-rare-items --rareitem=astro
-node index.js --mode=find-rare-items --rareitem=console
+node index.js --mode=find-rare-items --rareitem="cardano wine"
 ```
 
 **FLOORBUSTER MODE!!!**:
