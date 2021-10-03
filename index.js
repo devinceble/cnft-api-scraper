@@ -5,7 +5,7 @@ const baseURL = "https://api.cnft.io";
 const colors = require("colors");
 
 const args = require("yargs").argv;
-const { mode, floorprice, rareItemPrice, rareitem } = args;
+const { mode, rareItemPrice, rareitem } = args;
 
 const api = axios.create({
   baseURL: baseURL,
@@ -102,54 +102,6 @@ const printRareUnits = () => {
   showPaperHandsMsg();
 };
 
-const printFloorbuster = () => {
-  const units = jsonfile.readFileSync(file);
-  let totalADACost = 0;
-  let totalUnits = 0;
-  let processedUnits = [];
-
-  units.forEach((item) => {
-    const price = item.price / 1000000;
-    if (price <= floorprice) {
-      processedUnits.push(item);
-    }
-  });
-  processedUnits.forEach((item) => {
-    totalADACost += item.price / 1000000;
-    totalUnits++;
-  });
-  const totalADA = totalADACost.toLocaleString();
-
-  console.log(
-    "\n========================================================================================================="
-      .cyan
-  );
-  console.log(
-    `\n              To bust the current floor and raise it to ${floorprice} ADA, it would cost`
-      .red,
-    `ONLY ${totalADA} ADA!`.green.red
-  );
-  console.log(
-    `\n\n                                         ONLY ${totalUnits} units left to go!`
-      .green
-  );
-  console.log(
-    `\n\n                                     BUST THAT FLOOR LET'S GOOOOOOOO`
-      .red
-  );
-  console.log(
-    `\n\n                                  FIRST WE TAKE OVER CNFT, THEN THE WORLD.`
-      .red
-  );
-  console.log(
-    `\n\n                                             CITIZEN'S STRONK!`.magenta
-  );
-  console.log(
-    "\n========================================================================================================="
-      .cyan
-  );
-};
-
 if (mode === "get-units") {
   console.log("\nRetreiving CardanoCity units from cnft...\n");
   const interval = setInterval(apiCall, 3000 * Math.random());
@@ -166,7 +118,7 @@ if (mode === "get-units") {
     clearInterval(interval);
     jsonfile.writeFileSync(file, rawUnits);
     console.log(
-      "Stored CardanoCity units locally, so you can perform searches for rare items and busting the floor price"
+      "Stored CardanoCity units locally, so you can perform searches for rare items and low units!"
         .magenta
     );
     console.log(
@@ -176,8 +128,6 @@ if (mode === "get-units") {
   }
 } else if (mode === "find-rare-items") {
   printRareUnits();
-} else if (mode === "floorbuster") {
-  printFloorbuster();
 }
 
 function extractUnitNum(item) {
