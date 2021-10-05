@@ -17,10 +17,6 @@ Please do NOT retrieve the units more than once every 3-4 hours, cnft.io is a ve
 
 <hr>
 
-#### Please note the rare item mode isn't really optimized yet, when I have the time I will group the rare items together and add an option to show only items below a certain price.
-
-<hr>
-
 <br>
 
 **Retrieve the units from cnft.io**:
