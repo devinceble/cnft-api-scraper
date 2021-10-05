@@ -11,7 +11,9 @@ npm i
 
 ## **Next, open your terminal and determine which mode you would like to run**
 
-#### There are 3 modes to run. First you must retrieve the units then you can run rare item mode. Please do NOT retrieve the units more than once every 3-4 hours, cnft.io is a very important part of the CNFT ecosystem at the moment, and bringing it down could prove to be catastrophic at a time when ethereum refugees are flooding into the CNFT world.
+#### There are 3 modes to run. First you must retrieve the units then you can run rare item mode.
+
+Please do NOT retrieve the units more than once every 3-4 hours, cnft.io is a very important part of the CNFT ecosystem at the moment, and bringing it down could prove to be catastrophic at a time when ethereum refugees are flooding into the CNFT world.
 
 <hr>
 
@@ -27,12 +29,13 @@ npm i
 node index.js --mode=get-units
 ```
 
-**Find items with 10% rarity or less (BETA MODE PLEASE BEAR WITH ME)**:
+**Find rare items below a certain price**:
 
 #### Multiple words need to be passed with quotes as shown in the cardano wine example (3rd).
 
 ```bash
-node index.js --mode=find-rare-items --rareitem=samurai
-node index.js --mode=find-rare-items --rareitem=astro
-node index.js --mode=find-rare-items --rareitem="cardano wine"
+node index.js --mode=find-items --rareitem=samurai --maxprice=2000
+node index.js --mode=find-items --rareitem=astro --maxprice=500
+node index.js --mode=find-items --rareitem="black desk" --maxprice=225
+node index.js --mode=find-items --rareitem="cardano wine" --maxprice=120
 ```

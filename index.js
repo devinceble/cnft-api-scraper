@@ -5,7 +5,7 @@ const baseURL = "https://api.cnft.io";
 const colors = require("colors");
 
 const args = require("yargs").argv;
-const { mode, rareItemPrice, rareitem } = args;
+const { mode, rareitem, maxprice } = args;
 
 const api = axios.create({
   baseURL: baseURL,
@@ -75,13 +75,17 @@ const printRareUnits = () => {
         contents.forEach((itm) => {
           const itemName = itm.name.toLowerCase();
           if (itemName.includes(rareitem.toLowerCase())) {
-            processedUnits.push({
-              unit,
-              itemName,
-              priceInADA,
-              value,
-              valuePerADA,
-            });
+            if (maxprice && maxprice < priceInADA) {
+              return;
+            } else {
+              processedUnits.push({
+                unit,
+                itemName,
+                priceInADA,
+                value,
+                valuePerADA,
+              });
+            }
           }
         });
       } catch (err) {
@@ -94,12 +98,14 @@ const printRareUnits = () => {
     return a.priceInADA - b.priceInADA;
   });
 
-  // sortedUnitsByItem.forEach(({ unit, itemName, priceInADA, value}) => {
-  //   console.log(unit, " - Item: ", itemName, " Price: ", priceInADA, "ADA", " Value: ", value);
-  // });
-
-  console.table(sortedUnitsByItem);
-  showPaperHandsMsg();
+  if (sortedUnitsByItem?.length > 0) {
+    console.table(sortedUnitsByItem);
+    showPaperHandsMsg();
+  } else {
+    console.log(
+      `\nNo ${rareitem} found below ${maxprice} ADA... ARE WE MOONING?`.red
+    );
+  }
 };
 
 if (mode === "get-units") {
@@ -126,7 +132,7 @@ if (mode === "get-units") {
         .cyan
     );
   }
-} else if (mode === "find-rare-items") {
+} else if (mode === "find-items") {
   printRareUnits();
 }
 
