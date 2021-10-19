@@ -25,7 +25,7 @@ let rareItemsList = [
 ];
 
 const apiCall = () => {
-  if (200 >= pageNum) {
+  if (40 >= pageNum) {
     const payload = {
       search: "",
       sort: "date",
@@ -33,6 +33,7 @@ const apiCall = () => {
       page: pageNum,
       verified: true,
       project: "CardanoCity",
+      count: 200,
     };
 
     console.log("Getting units for page: ".green, pageNum);
